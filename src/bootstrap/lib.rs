@@ -1023,7 +1023,7 @@ impl Build {
             .args()
             .iter()
             .map(|s| s.to_string_lossy().into_owned())
-            .filter(|s| !s.starts_with("-O") && !s.starts_with("/O"))
+            .filter(|s| !s.starts_with("-O") && !s.starts_with("/O") && !s.starts_with("-static"))
             .collect::<Vec<String>>();
 
         // If we're compiling on macOS then we add a few unconditional flags
