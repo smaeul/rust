@@ -2024,7 +2024,7 @@ fn linker_with_args<'a>(
     // together with their respective upstream crates, and in their originally specified order.
     // This may be slightly breaking due to our use of `--as-needed` and needs a crater run.
     if sess.opts.unstable_opts.link_native_libraries {
-        add_upstream_native_libraries(cmd, sess, codegen_results);
+        add_upstream_native_libraries(cmd, sess, codegen_results, crate_type);
     }
 
     // Link with the import library generated for any raw-dylib functions.
@@ -2665,8 +2665,7 @@ fn add_upstream_rust_crates<'a>(
     }
 }
 
-/// Link in all of our upstream crates' native dependencies. Remember that all of these upstream
-/// native dependencies are all non-static dependencies. We've got two cases then:
+/// Link in all of our upstream crates' native dependencies. We have two cases:
 ///
 /// 1. The upstream crate is an rlib. In this case we *must* link in the native dependency because
 /// the rlib is just an archive.
@@ -2684,6 +2683,7 @@ fn add_upstream_native_libraries(
     cmd: &mut dyn Linker,
     sess: &Session,
     codegen_results: &CodegenResults,
+    crate_type: CrateType,
 ) {
     let mut last = (None, NativeLibKind::Unspecified, None);
     for &cnum in &codegen_results.crate_info.used_crates {
@@ -2708,7 +2708,19 @@ fn add_upstream_native_libraries(
                 NativeLibKind::Dylib { as_needed } => {
                     cmd.link_dylib(name, verbatim, as_needed.unwrap_or(true))
                 }
-                NativeLibKind::Unspecified => cmd.link_dylib(name, verbatim, true),
+                NativeLibKind::Unspecified => {
+                    // On some targets, like Linux, linking a static executable inhibits using
+                    // dylibs at all. Force native libraries to be static, even if for example
+                    // an upstream rlib was originally linked against a native shared library.
+                    if crate_type == config::CrateType::Executable
+                        && sess.crt_static(Some(crate_type))
+                        && !sess.target.options.crt_static_allows_dylibs
+                    {
+                        cmd.link_staticlib(name, verbatim)
+                    } else {
+                        cmd.link_dylib(name, verbatim, true)
+                    }
+                },
                 NativeLibKind::Framework { as_needed } => {
                     cmd.link_framework(name, as_needed.unwrap_or(true))
                 }
