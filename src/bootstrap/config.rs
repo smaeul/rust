@@ -206,8 +206,6 @@ pub struct Config {
     pub print_step_rusage: bool,
     pub missing_tools: bool,
 
-    // Fallback musl-root for all targets
-    pub musl_root: Option<PathBuf>,
     pub prefix: Option<PathBuf>,
     pub sysconfdir: Option<PathBuf>,
     pub datadir: Option<PathBuf>,
@@ -449,8 +447,6 @@ pub struct Target {
     pub sanitizers: Option<bool>,
     pub profiler: Option<bool>,
     pub crt_static: Option<bool>,
-    pub musl_root: Option<PathBuf>,
-    pub musl_libdir: Option<PathBuf>,
     pub wasi_root: Option<PathBuf>,
     pub qemu_rootfs: Option<PathBuf>,
     pub no_std: bool,
@@ -745,7 +741,6 @@ define_config! {
         default_linker: Option<String> = "default-linker",
         channel: Option<String> = "channel",
         description: Option<String> = "description",
-        musl_root: Option<String> = "musl-root",
         rpath: Option<bool> = "rpath",
         verbose_tests: Option<bool> = "verbose-tests",
         optimize_tests: Option<bool> = "optimize-tests",
@@ -793,8 +788,6 @@ define_config! {
         sanitizers: Option<bool> = "sanitizers",
         profiler: Option<bool> = "profiler",
         crt_static: Option<bool> = "crt-static",
-        musl_root: Option<String> = "musl-root",
-        musl_libdir: Option<String> = "musl-libdir",
         wasi_root: Option<String> = "wasi-root",
         qemu_rootfs: Option<String> = "qemu-rootfs",
         no_std: Option<bool> = "no-std",
@@ -1124,7 +1117,6 @@ impl Config {
             set(&mut config.llvm_tools_enabled, rust.llvm_tools);
             config.rustc_parallel = rust.parallel_compiler.unwrap_or(false);
             config.rustc_default_linker = rust.default_linker;
-            config.musl_root = rust.musl_root.map(PathBuf::from);
             config.save_toolstates = rust.save_toolstates.map(PathBuf::from);
             set(&mut config.deny_warnings, flags.deny_warnings.or(rust.deny_warnings));
             set(&mut config.backtrace_on_ice, rust.backtrace_on_ice);
@@ -1280,8 +1272,6 @@ impl Config {
                 target.ranlib = cfg.ranlib.map(PathBuf::from);
                 target.linker = cfg.linker.map(PathBuf::from);
                 target.crt_static = cfg.crt_static;
-                target.musl_root = cfg.musl_root.map(PathBuf::from);
-                target.musl_libdir = cfg.musl_libdir.map(PathBuf::from);
                 target.wasi_root = cfg.wasi_root.map(PathBuf::from);
                 target.qemu_rootfs = cfg.qemu_rootfs.map(PathBuf::from);
                 target.sanitizers = cfg.sanitizers;

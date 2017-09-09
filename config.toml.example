@@ -555,14 +555,6 @@ changelog-seen = 2
 # behavior -- this may lead to miscompilations or other bugs.
 #description = <none> (string)
 
-# The root location of the musl installation directory. The library directory
-# will also need to contain libunwind.a for an unwinding implementation. Note
-# that this option only makes sense for musl targets that produce statically
-# linked binaries.
-#
-# Defaults to /usr on musl hosts. Has no default otherwise.
-#musl-root = <platform specific> (path)
-
 # By default the `rustc` executable is built with `-Wl,-rpath` flags on Unix
 # platforms to ensure that the compiler is usable by default from the build
 # directory (as it links to a number of dynamic libraries). This may not be
@@ -747,15 +739,6 @@ changelog-seen = 2
 # compiler itself. This is useful for building rustc on targets that normally
 # only use static libraries. If unset, the target's default linkage is used.
 #crt-static = <platform-specific> (bool)
-
-# The root location of the musl installation directory. The library directory
-# will also need to contain libunwind.a for an unwinding implementation. Note
-# that this option only makes sense for musl targets that produce statically
-# linked binaries.
-#musl-root = build.musl-root (path)
-
-# The full path to the musl libdir.
-#musl-libdir = musl-root/lib
 
 # The root location of the `wasm32-wasi` sysroot. Only used for the
 # `wasm32-wasi` target. If you are building wasm32-wasi target, make sure to
