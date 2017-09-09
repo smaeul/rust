@@ -41,8 +41,6 @@ fn cc2ar(cc: &Path, target: TargetSelection) -> Option<PathBuf> {
         Some(PathBuf::from(ar))
     } else if target.is_msvc() {
         None
-    } else if target.contains("musl") {
-        Some(PathBuf::from("ar"))
     } else if target.contains("openbsd") {
         Some(PathBuf::from("ar"))
     } else if target.contains("vxworks") {
@@ -196,30 +194,6 @@ fn default_compiler(
             let alternative = format!("e{gnu_compiler}");
             if Command::new(&alternative).output().is_ok() {
                 Some(PathBuf::from(alternative))
-            } else {
-                None
-            }
-        }
-
-        "mips-unknown-linux-musl" if compiler == Language::C => {
-            if cfg.get_compiler().path().to_str() == Some("gcc") {
-                Some(PathBuf::from("mips-linux-musl-gcc"))
-            } else {
-                None
-            }
-        }
-        "mipsel-unknown-linux-musl" if compiler == Language::C => {
-            if cfg.get_compiler().path().to_str() == Some("gcc") {
-                Some(PathBuf::from("mipsel-linux-musl-gcc"))
-            } else {
-                None
-            }
-        }
-
-        t if t.contains("musl") && compiler == Language::C => {
-            if let Some(root) = build.musl_root(target) {
-                let guess = root.join("bin/musl-gcc");
-                if guess.exists() { Some(guess) } else { None }
             } else {
                 None
             }

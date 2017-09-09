@@ -61,28 +61,6 @@ pub(super) fn all(obj: &'static str) -> CrtObjects {
     ])
 }
 
-pub(super) fn pre_musl_self_contained() -> CrtObjects {
-    new(&[
-        (LinkOutputKind::DynamicNoPicExe, &["crt1.o", "crti.o", "crtbegin.o"]),
-        (LinkOutputKind::DynamicPicExe, &["Scrt1.o", "crti.o", "crtbeginS.o"]),
-        (LinkOutputKind::StaticNoPicExe, &["crt1.o", "crti.o", "crtbegin.o"]),
-        (LinkOutputKind::StaticPicExe, &["rcrt1.o", "crti.o", "crtbeginS.o"]),
-        (LinkOutputKind::DynamicDylib, &["crti.o", "crtbeginS.o"]),
-        (LinkOutputKind::StaticDylib, &["crti.o", "crtbeginS.o"]),
-    ])
-}
-
-pub(super) fn post_musl_self_contained() -> CrtObjects {
-    new(&[
-        (LinkOutputKind::DynamicNoPicExe, &["crtend.o", "crtn.o"]),
-        (LinkOutputKind::DynamicPicExe, &["crtendS.o", "crtn.o"]),
-        (LinkOutputKind::StaticNoPicExe, &["crtend.o", "crtn.o"]),
-        (LinkOutputKind::StaticPicExe, &["crtendS.o", "crtn.o"]),
-        (LinkOutputKind::DynamicDylib, &["crtendS.o", "crtn.o"]),
-        (LinkOutputKind::StaticDylib, &["crtendS.o", "crtn.o"]),
-    ])
-}
-
 pub(super) fn pre_mingw_self_contained() -> CrtObjects {
     new(&[
         (LinkOutputKind::DynamicNoPicExe, &["crt2.o", "rsbegin.o"]),

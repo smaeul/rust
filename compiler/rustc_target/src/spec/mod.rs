@@ -512,9 +512,6 @@ pub enum LinkSelfContainedDefault {
     /// The target spec explicitly disables self-contained linking.
     False,
 
-    /// The target spec requests that the self-contained mode is inferred, in the context of musl.
-    InferredForMusl,
-
     /// The target spec requests that the self-contained mode is inferred, in the context of mingw.
     InferredForMingw,
 
@@ -531,7 +528,6 @@ impl FromStr for LinkSelfContainedDefault {
         Ok(match s {
             "false" => LinkSelfContainedDefault::False,
             "true" | "wasm" => LinkSelfContainedDefault::True,
-            "musl" => LinkSelfContainedDefault::InferredForMusl,
             "mingw" => LinkSelfContainedDefault::InferredForMingw,
             _ => return Err(()),
         })
@@ -553,7 +549,6 @@ impl ToJson for LinkSelfContainedDefault {
             // Stable backwards-compatible values
             LinkSelfContainedDefault::True => "true".to_json(),
             LinkSelfContainedDefault::False => "false".to_json(),
-            LinkSelfContainedDefault::InferredForMusl => "musl".to_json(),
             LinkSelfContainedDefault::InferredForMingw => "mingw".to_json(),
         }
     }
