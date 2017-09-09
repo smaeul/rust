@@ -199,38 +199,7 @@ fn copy_self_contained_objects(
 
     // Copies the libc and CRT objects.
     //
-    // rustc historically provides a more self-contained installation for musl targets
-    // not requiring the presence of a native musl toolchain. For example, it can fall back
-    // to using gcc from a glibc-targeting toolchain for linking.
-    // To do that we have to distribute musl startup objects as a part of Rust toolchain
-    // and link with them manually in the self-contained mode.
-    if target.contains("musl") {
-        let srcdir = builder.musl_libdir(target).unwrap_or_else(|| {
-            panic!("Target {:?} does not have a \"musl-libdir\" key", target.triple)
-        });
-        for &obj in &["libc.a", "crt1.o", "Scrt1.o", "rcrt1.o", "crti.o", "crtn.o"] {
-            copy_and_stamp(
-                builder,
-                &libdir_self_contained,
-                &srcdir,
-                obj,
-                &mut target_deps,
-                DependencyType::TargetSelfContained,
-            );
-        }
-        let crt_path = builder.ensure(native::CrtBeginEnd { target });
-        for &obj in &["crtbegin.o", "crtbeginS.o", "crtend.o", "crtendS.o"] {
-            let src = crt_path.join(obj);
-            let target = libdir_self_contained.join(obj);
-            builder.copy(&src, &target);
-            target_deps.push((target, DependencyType::TargetSelfContained));
-        }
-
-        if !target.starts_with("s390x") {
-            let libunwind_path = copy_llvm_libunwind(builder, target, &libdir_self_contained);
-            target_deps.push((libunwind_path, DependencyType::TargetSelfContained));
-        }
-    } else if target.ends_with("-wasi") {
+    if target.ends_with("-wasi") {
         let srcdir = builder
             .wasi_root(target)
             .unwrap_or_else(|| {
@@ -313,15 +282,6 @@ pub fn std_cargo(builder: &Builder<'_>, target: TargetSelection, stage: u32, car
             .arg(features)
             .arg("--manifest-path")
             .arg(builder.src.join("library/test/Cargo.toml"));
-
-        // Help the libc crate compile by assisting it in finding various
-        // sysroot native libraries.
-        if target.contains("musl") {
-            if let Some(p) = builder.musl_libdir(target) {
-                let root = format!("native={}", p.to_str().unwrap());
-                cargo.rustflag("-L").rustflag(&root);
-            }
-        }
 
         if target.ends_with("-wasi") {
             if let Some(p) = builder.wasi_root(target) {
