@@ -13,9 +13,6 @@ fn main() {
         llvm_libunwind::compile();
     } else if target.contains("linux") {
         // linking for Linux is handled in lib.rs
-        if target.contains("musl") {
-            llvm_libunwind::compile();
-        }
     } else if target.contains("freebsd") {
         println!("cargo:rustc-link-lib=gcc_s");
     } else if target.contains("rumprun") {
