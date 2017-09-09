@@ -126,8 +126,7 @@ ENV TARGETS=$TARGETS,x86_64-unknown-none
 RUN ln -s /usr/include/asm-generic /usr/local/include/asm
 
 ENV RUST_CONFIGURE_ARGS --enable-extended --enable-lld --disable-docs \
-  --set target.wasm32-wasi.wasi-root=/wasm32-wasi \
-  --musl-root-armv7=/musl-armv7
+  --set target.wasm32-wasi.wasi-root=/wasm32-wasi
 
 ENV EXTERNAL_LLVM 1
 

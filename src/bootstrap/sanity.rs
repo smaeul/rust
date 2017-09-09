@@ -11,7 +11,6 @@
 use std::collections::HashMap;
 use std::env;
 use std::ffi::{OsStr, OsString};
-use std::fs;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -187,28 +186,6 @@ than building it.
         if target.contains("-none-") || target.contains("nvptx") {
             if build.no_std(*target) == Some(false) {
                 panic!("All the *-none-* and nvptx* targets are no-std targets")
-            }
-        }
-
-        // Make sure musl-root is valid
-        if target.contains("musl") {
-            // If this is a native target (host is also musl) and no musl-root is given,
-            // fall back to the system toolchain in /usr before giving up
-            if build.musl_root(*target).is_none() && build.config.build == *target {
-                let target = build.config.target_config.entry(*target).or_default();
-                target.musl_root = Some("/usr".into());
-            }
-            match build.musl_libdir(*target) {
-                Some(libdir) => {
-                    if fs::metadata(libdir.join("libc.a")).is_err() {
-                        panic!("couldn't find libc.a in musl libdir: {}", libdir.display());
-                    }
-                }
-                None => panic!(
-                    "when targeting MUSL either the rust.musl-root \
-                            option or the target.$TARGET.musl-root option must \
-                            be specified in config.toml"
-                ),
             }
         }
 
