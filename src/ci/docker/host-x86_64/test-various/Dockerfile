@@ -43,7 +43,6 @@ COPY host-x86_64/dist-various-2/build-wasi-toolchain.sh /tmp/
 RUN /tmp/build-wasi-toolchain.sh
 
 ENV RUST_CONFIGURE_ARGS \
-  --musl-root-x86_64=/usr/local/x86_64-linux-musl \
   --set build.nodejs=/node-v18.12.0-linux-x64/bin/node \
   --set rust.lld \
   --set target.wasm32-wasip1.wasi-root=/wasm32-wasip1

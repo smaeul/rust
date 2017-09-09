@@ -1775,7 +1775,7 @@ fn detect_self_contained_mingw(sess: &Session) -> bool {
 /// Various toolchain components used during linking are used from rustc distribution
 /// instead of being found somewhere on the host system.
 /// We only provide such support for a very limited number of targets.
-fn self_contained_components(sess: &Session, crate_type: CrateType) -> LinkSelfContainedComponents {
+fn self_contained_components(sess: &Session, _crate_type: CrateType) -> LinkSelfContainedComponents {
     // Turn the backwards compatible bool values for `self_contained` into fully inferred
     // `LinkSelfContainedComponents`.
     let self_contained =
@@ -1797,10 +1797,6 @@ fn self_contained_components(sess: &Session, crate_type: CrateType) -> LinkSelfC
                     return components;
                 }
 
-                // FIXME: Find a better heuristic for "native musl toolchain is available",
-                // based on host and linker path, for example.
-                // (https://github.com/rust-lang/rust/pull/71769#issuecomment-626330237).
-                LinkSelfContainedDefault::InferredForMusl => sess.crt_static(Some(crate_type)),
                 LinkSelfContainedDefault::InferredForMingw => {
                     sess.host == sess.target
                         && sess.target.vendor != "uwp"
