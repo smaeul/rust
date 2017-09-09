@@ -132,10 +132,6 @@ ENV CFLAGS_armv5te_unknown_linux_musleabi="-march=armv5te -marm -mfloat-abi=soft
     CC_riscv64gc_unknown_none_elf=false
 
 ENV RUST_CONFIGURE_ARGS \
-      --musl-root-armv5te=/musl-armv5te \
-      --musl-root-arm=/musl-arm \
-      --musl-root-armhf=/musl-armhf \
-      --musl-root-armv7hf=/musl-armv7hf \
       --disable-docs
 
 ENV SCRIPT \
