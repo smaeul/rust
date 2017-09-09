@@ -168,24 +168,7 @@ fn copy_self_contained_objects(
 
     // Copies the CRT objects.
     //
-    // rustc historically provides a more self-contained installation for musl targets
-    // not requiring the presence of a native musl toolchain. For example, it can fall back
-    // to using gcc from a glibc-targeting toolchain for linking.
-    // To do that we have to distribute musl startup objects as a part of Rust toolchain
-    // and link with them manually in the self-contained mode.
-    if target.contains("musl") {
-        let srcdir = builder.musl_libdir(target).unwrap();
-        for &obj in &["crt1.o", "Scrt1.o", "rcrt1.o", "crti.o", "crtn.o"] {
-            copy_and_stamp(
-                builder,
-                &libdir_self_contained,
-                &srcdir,
-                obj,
-                &mut target_deps,
-                DependencyType::TargetSelfContained,
-            );
-        }
-    } else if target.ends_with("-wasi") {
+    if target.ends_with("-wasi") {
         let srcdir = builder.wasi_root(target).unwrap().join("lib/wasm32-wasi");
         copy_and_stamp(
             builder,
@@ -259,15 +242,6 @@ pub fn std_cargo(builder: &Builder<'_>, target: TargetSelection, stage: u32, car
             .arg(features)
             .arg("--manifest-path")
             .arg(builder.src.join("library/test/Cargo.toml"));
-
-        // Help the libc crate compile by assisting it in finding various
-        // sysroot native libraries.
-        if target.contains("musl") {
-            if let Some(p) = builder.musl_libdir(target) {
-                let root = format!("native={}", p.to_str().unwrap());
-                cargo.rustflag("-L").rustflag(&root);
-            }
-        }
 
         if target.ends_with("-wasi") {
             if let Some(p) = builder.wasi_root(target) {
