@@ -119,7 +119,6 @@ ENV TARGETS=$TARGETS,i686-unknown-freebsd
 RUN ln -s /usr/include/asm-generic /usr/local/include/asm
 
 ENV RUST_CONFIGURE_ARGS --enable-extended --enable-lld --disable-docs \
-  --set target.wasm32-wasi.wasi-root=/wasm32-wasi \
-  --musl-root-armv7=/musl-armv7
+  --set target.wasm32-wasi.wasi-root=/wasm32-wasi
 
 ENV SCRIPT python3 ../x.py dist --host='' --target $TARGETS
