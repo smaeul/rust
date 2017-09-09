@@ -140,7 +140,6 @@ RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/local/include/asm
 
 ENV RUST_CONFIGURE_ARGS --enable-extended --enable-lld --disable-docs \
   --set target.wasm32-wasi.wasi-root=/wasm32-wasi \
-  --set target.wasm32-wasi-preview1-threads.wasi-root=/wasm32-wasi-preview1-threads \
-  --musl-root-armv7=/musl-armv7
+  --set target.wasm32-wasi-preview1-threads.wasi-root=/wasm32-wasi-preview1-threads
 
 ENV SCRIPT python3 ../x.py dist --host='' --target $TARGETS
