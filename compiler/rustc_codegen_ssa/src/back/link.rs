@@ -1558,16 +1558,12 @@ fn detect_self_contained_mingw(sess: &Session) -> bool {
 
 /// Whether we link to our own CRT objects instead of relying on gcc to pull them.
 /// We only provide such support for a very limited number of targets.
-fn crt_objects_fallback(sess: &Session, crate_type: CrateType) -> bool {
+fn crt_objects_fallback(sess: &Session, _crate_type: CrateType) -> bool {
     if let Some(self_contained) = sess.opts.cg.link_self_contained {
         return self_contained;
     }
 
     match sess.target.crt_objects_fallback {
-        // FIXME: Find a better heuristic for "native musl toolchain is available",
-        // based on host and linker path, for example.
-        // (https://github.com/rust-lang/rust/pull/71769#issuecomment-626330237).
-        Some(CrtObjectsFallback::Musl) => sess.crt_static(Some(crate_type)),
         Some(CrtObjectsFallback::Mingw) => {
             sess.host == sess.target
                 && sess.target.vendor != "uwp"
