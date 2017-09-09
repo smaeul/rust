@@ -49,7 +49,7 @@ cfg_if::cfg_if! {
         #[link(name = "unwind", cfg(not(target_feature = "crt-static")))]
         extern "C" {}
     } else {
-        #[link(name = "unwind", kind = "static", modifiers = "-bundle", cfg(target_feature = "crt-static"))]
+        #[link(name = "gcc_eh", kind = "static", modifiers = "-bundle", cfg(target_feature = "crt-static"))]
         #[link(name = "gcc_s", cfg(not(target_feature = "crt-static")))]
         extern "C" {}
     }
