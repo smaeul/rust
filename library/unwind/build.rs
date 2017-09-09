@@ -18,9 +18,7 @@ fn main() {
         llvm_libunwind::compile();
     } else if target.contains("linux") {
         // linking for Linux is handled in lib.rs
-        if target.contains("musl") {
-            llvm_libunwind::compile();
-        } else if target.contains("android") {
+        if target.contains("android") {
             let build = cc::Build::new();
 
             // Since ndk r23 beta 3 `libgcc` was replaced with `libunwind` thus

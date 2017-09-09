@@ -37,22 +37,9 @@ cfg_if::cfg_if! {
 }
 
 #[cfg(target_env = "musl")]
-cfg_if::cfg_if! {
-    if #[cfg(all(feature = "llvm-libunwind", feature = "system-llvm-libunwind"))] {
-        compile_error!("`llvm-libunwind` and `system-llvm-libunwind` cannot be enabled at the same time");
-    } else if #[cfg(feature = "llvm-libunwind")] {
-        #[link(name = "unwind", kind = "static")]
-        extern "C" {}
-    } else if #[cfg(feature = "system-llvm-libunwind")] {
-        #[link(name = "unwind", kind = "static-nobundle", cfg(target_feature = "crt-static"))]
-        #[link(name = "unwind", cfg(not(target_feature = "crt-static")))]
-        extern "C" {}
-    } else {
-        #[link(name = "unwind", kind = "static", cfg(target_feature = "crt-static"))]
-        #[link(name = "gcc_s", cfg(not(target_feature = "crt-static")))]
-        extern "C" {}
-    }
-}
+#[link(name = "gcc_eh", kind = "static-nobundle", cfg(target_feature = "crt-static"))]
+#[link(name = "gcc_s", cfg(not(target_feature = "crt-static")))]
+extern "C" {}
 
 // When building with crt-static, we get `gcc_eh` from the `libc` crate, since
 // glibc needs it, and needs it listed later on the linker command line. We
