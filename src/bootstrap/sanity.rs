@@ -171,28 +171,6 @@ pub fn check(build: &mut Build) {
             }
         }
 
-        // Make sure musl-root is valid
-        if target.contains("musl") {
-            // If this is a native target (host is also musl) and no musl-root is given,
-            // fall back to the system toolchain in /usr before giving up
-            if build.musl_root(*target).is_none() && build.config.build == *target {
-                let target = build.config.target_config.entry(*target).or_default();
-                target.musl_root = Some("/usr".into());
-            }
-            match build.musl_libdir(*target) {
-                Some(libdir) => {
-                    if fs::metadata(libdir.join("libc.a")).is_err() {
-                        panic!("couldn't find libc.a in musl libdir: {}", libdir.display());
-                    }
-                }
-                None => panic!(
-                    "when targeting MUSL either the rust.musl-root \
-                            option or the target.$TARGET.musl-root option must \
-                            be specified in config.toml"
-                ),
-            }
-        }
-
         if target.contains("msvc") {
             // There are three builds of cmake on windows: MSVC, MinGW, and
             // Cygwin. The Cygwin build does not have generators for Visual
