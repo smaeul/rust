@@ -99,38 +99,6 @@ v("llvm-config", None, "set path to llvm-config")
 v("llvm-filecheck", None, "set path to LLVM's FileCheck utility")
 v("python", "build.python", "set path to python")
 v("android-ndk", "build.android-ndk", "set path to Android NDK")
-v("musl-root", "target.x86_64-unknown-linux-musl.musl-root",
-  "MUSL root installation directory (deprecated)")
-v("musl-root-x86_64", "target.x86_64-unknown-linux-musl.musl-root",
-  "x86_64-unknown-linux-musl install directory")
-v("musl-root-i586", "target.i586-unknown-linux-musl.musl-root",
-  "i586-unknown-linux-musl install directory")
-v("musl-root-i686", "target.i686-unknown-linux-musl.musl-root",
-  "i686-unknown-linux-musl install directory")
-v("musl-root-arm", "target.arm-unknown-linux-musleabi.musl-root",
-  "arm-unknown-linux-musleabi install directory")
-v("musl-root-armhf", "target.arm-unknown-linux-musleabihf.musl-root",
-  "arm-unknown-linux-musleabihf install directory")
-v("musl-root-armv5te", "target.armv5te-unknown-linux-musleabi.musl-root",
-  "armv5te-unknown-linux-musleabi install directory")
-v("musl-root-armv7", "target.armv7-unknown-linux-musleabi.musl-root",
-  "armv7-unknown-linux-musleabi install directory")
-v("musl-root-armv7hf", "target.armv7-unknown-linux-musleabihf.musl-root",
-  "armv7-unknown-linux-musleabihf install directory")
-v("musl-root-aarch64", "target.aarch64-unknown-linux-musl.musl-root",
-  "aarch64-unknown-linux-musl install directory")
-v("musl-root-mips", "target.mips-unknown-linux-musl.musl-root",
-  "mips-unknown-linux-musl install directory")
-v("musl-root-mipsel", "target.mipsel-unknown-linux-musl.musl-root",
-  "mipsel-unknown-linux-musl install directory")
-v("musl-root-mips64", "target.mips64-unknown-linux-muslabi64.musl-root",
-  "mips64-unknown-linux-muslabi64 install directory")
-v("musl-root-mips64el", "target.mips64el-unknown-linux-muslabi64.musl-root",
-  "mips64el-unknown-linux-muslabi64 install directory")
-v("musl-root-riscv32gc", "target.riscv32gc-unknown-linux-musl.musl-root",
-  "riscv32gc-unknown-linux-musl install directory")
-v("musl-root-riscv64gc", "target.riscv64gc-unknown-linux-musl.musl-root",
-  "riscv64gc-unknown-linux-musl install directory")
 v("qemu-armhf-rootfs", "target.arm-unknown-linux-gnueabihf.qemu-rootfs",
   "rootfs in qemu testing, you probably don't want to use this")
 v("qemu-aarch64-rootfs", "target.aarch64-unknown-linux-gnu.qemu-rootfs",

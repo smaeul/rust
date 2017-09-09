@@ -307,8 +307,6 @@ pub struct Config {
     pub print_step_rusage: bool,
     pub missing_tools: bool,
 
-    // Fallback musl-root for all targets
-    pub musl_root: Option<PathBuf>,
     pub prefix: Option<PathBuf>,
     pub sysconfdir: Option<PathBuf>,
     pub datadir: Option<PathBuf>,
@@ -574,8 +572,6 @@ pub struct Target {
     pub profiler: Option<StringOrBool>,
     pub rpath: Option<bool>,
     pub crt_static: Option<bool>,
-    pub musl_root: Option<PathBuf>,
-    pub musl_libdir: Option<PathBuf>,
     pub wasi_root: Option<PathBuf>,
     pub qemu_rootfs: Option<PathBuf>,
     pub no_std: bool,
@@ -1080,7 +1076,6 @@ define_config! {
         default_linker: Option<String> = "default-linker",
         channel: Option<String> = "channel",
         description: Option<String> = "description",
-        musl_root: Option<String> = "musl-root",
         rpath: Option<bool> = "rpath",
         strip: Option<bool> = "strip",
         stack_protector: Option<String> = "stack-protector",
@@ -1131,8 +1126,6 @@ define_config! {
         profiler: Option<StringOrBool> = "profiler",
         rpath: Option<bool> = "rpath",
         crt_static: Option<bool> = "crt-static",
-        musl_root: Option<String> = "musl-root",
-        musl_libdir: Option<String> = "musl-libdir",
         wasi_root: Option<String> = "wasi-root",
         qemu_rootfs: Option<String> = "qemu-rootfs",
         no_std: Option<bool> = "no-std",
@@ -1532,7 +1525,6 @@ impl Config {
                 default_linker,
                 channel,
                 description,
-                musl_root,
                 rpath,
                 verbose_tests,
                 optimize_tests,
@@ -1634,7 +1626,6 @@ impl Config {
             config.rustc_parallel =
                 parallel_compiler.unwrap_or(config.channel == "dev" || config.channel == "nightly");
             config.rustc_default_linker = default_linker;
-            config.musl_root = musl_root.map(PathBuf::from);
             config.save_toolstates = save_toolstates.map(PathBuf::from);
             set(
                 &mut config.deny_warnings,
@@ -1827,8 +1818,6 @@ impl Config {
                 target.ranlib = cfg.ranlib.map(PathBuf::from);
                 target.linker = cfg.linker.map(PathBuf::from);
                 target.crt_static = cfg.crt_static;
-                target.musl_root = cfg.musl_root.map(PathBuf::from);
-                target.musl_libdir = cfg.musl_libdir.map(PathBuf::from);
                 target.wasi_root = cfg.wasi_root.map(PathBuf::from);
                 target.qemu_rootfs = cfg.qemu_rootfs.map(PathBuf::from);
                 target.sanitizers = cfg.sanitizers;

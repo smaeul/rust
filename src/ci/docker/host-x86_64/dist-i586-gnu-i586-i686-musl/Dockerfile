@@ -58,8 +58,6 @@ COPY scripts/sccache.sh /scripts/
 RUN sh /scripts/sccache.sh
 
 ENV RUST_CONFIGURE_ARGS \
-      --musl-root-i586=/musl-i586 \
-      --musl-root-i686=/musl-i686 \
       --disable-docs
 
 # Newer binutils broke things on some vms/distros (i.e., linking against
