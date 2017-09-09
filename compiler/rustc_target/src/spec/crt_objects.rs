@@ -62,21 +62,6 @@ pub(super) fn all(obj: &str) -> CrtObjects {
     ])
 }
 
-pub(super) fn pre_musl_fallback() -> CrtObjects {
-    new(&[
-        (LinkOutputKind::DynamicNoPicExe, &["crt1.o", "crti.o"]),
-        (LinkOutputKind::DynamicPicExe, &["Scrt1.o", "crti.o"]),
-        (LinkOutputKind::StaticNoPicExe, &["crt1.o", "crti.o"]),
-        (LinkOutputKind::StaticPicExe, &["rcrt1.o", "crti.o"]),
-        (LinkOutputKind::DynamicDylib, &["crti.o"]),
-        (LinkOutputKind::StaticDylib, &["crti.o"]),
-    ])
-}
-
-pub(super) fn post_musl_fallback() -> CrtObjects {
-    all("crtn.o")
-}
-
 pub(super) fn pre_mingw_fallback() -> CrtObjects {
     new(&[
         (LinkOutputKind::DynamicNoPicExe, &["crt2.o", "rsbegin.o"]),
@@ -117,7 +102,6 @@ pub(super) fn post_wasi_fallback() -> CrtObjects {
 /// Which logic to use to determine whether to fall back to the "self-contained" mode or not.
 #[derive(Clone, Copy, PartialEq, Hash, Debug)]
 pub enum CrtObjectsFallback {
-    Musl,
     Mingw,
     Wasm,
 }
@@ -127,7 +111,6 @@ impl FromStr for CrtObjectsFallback {
 
     fn from_str(s: &str) -> Result<CrtObjectsFallback, ()> {
         Ok(match s {
-            "musl" => CrtObjectsFallback::Musl,
             "mingw" => CrtObjectsFallback::Mingw,
             "wasm" => CrtObjectsFallback::Wasm,
             _ => return Err(()),
@@ -138,7 +121,6 @@ impl FromStr for CrtObjectsFallback {
 impl ToJson for CrtObjectsFallback {
     fn to_json(&self) -> Json {
         match *self {
-            CrtObjectsFallback::Musl => "musl",
             CrtObjectsFallback::Mingw => "mingw",
             CrtObjectsFallback::Wasm => "wasm",
         }
