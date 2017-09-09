@@ -34,8 +34,6 @@ COPY scripts/cmake.sh /scripts/
 RUN /scripts/cmake.sh
 
 ENV RUST_CONFIGURE_ARGS \
-      --musl-root-i586=/musl-i586 \
-      --musl-root-i686=/musl-i686 \
       --disable-docs \
       --set llvm.allow-old-toolchain
 
