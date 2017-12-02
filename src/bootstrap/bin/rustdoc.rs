@@ -27,9 +27,6 @@ fn main() {
         Err(_) => 0,
     };
 
-    let mut dylib_path = dylib_path();
-    dylib_path.insert(0, PathBuf::from(libdir.clone()));
-
     let mut cmd = Command::new(rustdoc);
 
     if target.is_some() {
@@ -42,7 +39,7 @@ fn main() {
     }
 
     cmd.args(&args);
-    cmd.env(dylib_path_var(), env::join_paths(&dylib_path).unwrap());
+    cmd.env(dylib_path_var(), PathBuf::from(libdir.clone()));
 
     // Force all crates compiled by this compiler to (a) be unstable and (b)
     // allow the `rustc_private` feature to link to other unstable crates
@@ -78,7 +75,7 @@ fn main() {
         eprintln!(
             "rustdoc command: {:?}={:?} {:?}",
             dylib_path_var(),
-            env::join_paths(&dylib_path).unwrap(),
+            PathBuf::from(libdir.clone()),
             cmd,
         );
         eprintln!("sysroot: {:?}", sysroot);
