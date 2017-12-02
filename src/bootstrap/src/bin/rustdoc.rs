@@ -6,12 +6,13 @@ use std::env;
 use std::path::PathBuf;
 use std::process::Command;
 
-use dylib_util::{dylib_path, dylib_path_var};
+use dylib_util::dylib_path_var;
 
 #[path = "../utils/bin_helpers.rs"]
 mod bin_helpers;
 
 #[path = "../utils/dylib.rs"]
+#[allow(dead_code)]
 mod dylib_util;
 
 fn main() {
@@ -28,9 +29,6 @@ fn main() {
     // is passed (a bit janky...)
     let target = args.windows(2).find(|w| &*w[0] == "--target").and_then(|w| w[1].to_str());
 
-    let mut dylib_path = dylib_path();
-    dylib_path.insert(0, PathBuf::from(libdir.clone()));
-
     let mut cmd = Command::new(rustdoc);
 
     if target.is_some() {
@@ -43,7 +41,7 @@ fn main() {
     }
 
     cmd.args(&args);
-    cmd.env(dylib_path_var(), env::join_paths(&dylib_path).unwrap());
+    cmd.env(dylib_path_var(), PathBuf::from(libdir.clone()));
 
     // Force all crates compiled by this compiler to (a) be unstable and (b)
     // allow the `rustc_private` feature to link to other unstable crates
@@ -68,7 +66,7 @@ fn main() {
         eprintln!(
             "rustdoc command: {:?}={:?} {:?}",
             dylib_path_var(),
-            env::join_paths(&dylib_path).unwrap(),
+            PathBuf::from(libdir.clone()),
             cmd,
         );
         eprintln!("sysroot: {sysroot:?}");
