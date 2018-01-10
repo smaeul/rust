@@ -234,10 +234,10 @@ fn main() {
     // of llvm-config, not the target that we're attempting to link.
     let mut cmd = Command::new(&llvm_config);
     cmd.arg(llvm_link_arg).arg("--libs");
+    cmd.arg("--system-libs");
+    cmd.args(&components);
 
-    if !is_crossed {
-        cmd.arg("--system-libs");
-    } else if target.contains("windows-gnu") {
+    if target.contains("windows-gnu") {
         println!("cargo:rustc-link-lib=shell32");
         println!("cargo:rustc-link-lib=uuid");
     } else if target.contains("netbsd") || target.contains("haiku") || target.contains("darwin") {
@@ -250,7 +250,6 @@ fn main() {
         // 32-bit targets need to link libatomic.
         println!("cargo:rustc-link-lib=atomic");
     }
-    cmd.args(&components);
 
     for lib in output(&mut cmd).split_whitespace() {
         let name = if let Some(stripped) = lib.strip_prefix("-l") {
