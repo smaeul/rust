@@ -1410,8 +1410,7 @@ impl<'a> Builder<'a> {
             if let Ok(cxx) = self.cxx(target) {
                 let cxx = ccacheify(&cxx);
                 cargo
-                    .env(format!("CXX_{}", target.triple), &cxx)
-                    .env(format!("CXXFLAGS_{}", target.triple), cflags);
+                    .env(format!("CXX_{}", target.triple), &cxx);
             }
         }
 
