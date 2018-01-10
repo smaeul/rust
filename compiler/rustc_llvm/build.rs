@@ -237,10 +237,8 @@ fn main() {
     // of llvm-config, not the target that we're attempting to link.
     let mut cmd = Command::new(&llvm_config);
     cmd.arg(llvm_link_arg).arg("--libs");
-
-    if !is_crossed {
-        cmd.arg("--system-libs");
-    }
+    cmd.arg("--system-libs");
+    cmd.args(&components);
 
     if (target.starts_with("arm") && !target.contains("freebsd"))
         || target.starts_with("mips-")
@@ -258,7 +256,6 @@ fn main() {
         println!("cargo:rustc-link-lib=z");
         println!("cargo:rustc-link-lib=execinfo");
     }
-    cmd.args(&components);
 
     for lib in output(&mut cmd).split_whitespace() {
         let name = if let Some(stripped) = lib.strip_prefix("-l") {
