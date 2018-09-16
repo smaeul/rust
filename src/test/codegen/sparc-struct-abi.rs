@@ -4,6 +4,7 @@
 
 // only-sparc64
 // compile-flags: -O --target=sparc64-unknown-linux-gnu --crate-type=rlib
+// ignore-test
 #![feature(no_core, lang_items)]
 #![no_core]
 
