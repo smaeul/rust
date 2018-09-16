@@ -1,4 +1,6 @@
 # ignore-cross-compile
+# ignore-test
+
 include ../tools.mk
 
 all:
