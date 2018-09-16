@@ -1,3 +1,5 @@
+# ignore-test
+
 -include ../tools.mk
 
 all:

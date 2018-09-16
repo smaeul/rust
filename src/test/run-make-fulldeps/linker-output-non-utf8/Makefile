@@ -13,6 +13,8 @@
 # This also does not work on Apple APFS due to the filesystem requiring
 # valid UTF-8 paths.
 
+# ignore-musl
+
 # The zzz it to allow humans to tab complete or glob this thing.
 bad_dir := $(TMPDIR)/zzz$$'\xff'
 

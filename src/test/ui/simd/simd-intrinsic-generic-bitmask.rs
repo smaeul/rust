@@ -2,6 +2,8 @@
 #![allow(non_camel_case_types)]
 
 // ignore-emscripten
+// ignore-powerpc
+// ignore-powerpc64
 
 // Test that the simd_bitmask intrinsic produces correct results.
 
