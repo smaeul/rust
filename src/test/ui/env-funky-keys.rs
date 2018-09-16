@@ -1,6 +1,7 @@
 // run-pass
 // Ignore this test on Android, because it segfaults there.
 
+// ignore-test
 // ignore-android
 // ignore-windows
 // ignore-emscripten no execve
