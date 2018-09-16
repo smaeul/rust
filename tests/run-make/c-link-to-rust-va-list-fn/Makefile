@@ -1,4 +1,6 @@
 # ignore-cross-compile
+# ignore-aarch64
+
 include ../tools.mk
 
 all:
