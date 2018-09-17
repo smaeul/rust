@@ -1,2 +1,4 @@
+-include ../tools.mk
+
 all:
-	'$(PYTHON)' test.py
+	env '$(HOST_RPATH_ENV)' '$(PYTHON)' test.py
