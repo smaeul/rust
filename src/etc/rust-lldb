@@ -31,7 +31,7 @@ EOF
 fi
 
 # Prepare commands that will be loaded before any file on the command line has been loaded
-script_import="command script import \"$RUSTC_SYSROOT/lib/rustlib/etc/lldb_rust_formatters.py\""
+script_import="command script import \"$RUSTC_SYSROOT/share/rust/lldb_rust_formatters.py\""
 category_definition="type summary add --no-value --python-function lldb_rust_formatters.print_val -x \".*\" --category Rust"
 category_enable="type category enable Rust"
 
