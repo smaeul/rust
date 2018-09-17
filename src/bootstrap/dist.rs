@@ -460,7 +460,7 @@ impl Step for DebuggerScripts {
     fn run(self, builder: &Builder<'_>) {
         let host = self.host;
         let sysroot = self.sysroot;
-        let dst = sysroot.join("lib/rustlib/etc");
+        let dst = sysroot.join("share/rust");
         t!(fs::create_dir_all(&dst));
         let cp_debugger_script = |file: &str| {
             builder.install(&builder.src.join("src/etc/").join(file), &dst, 0o644);
