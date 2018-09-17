@@ -808,7 +808,18 @@ macro_rules! supported_targets {
     };
 }
 
+mod arm_unknown_linux_musleabi;
+
 supported_targets! {
+    ("aarch64-gentoo-linux-musl", aarch64_gentoo_linux_musl),
+    ("arm-unknown-linux-musleabi", arm_gentoo_linux_musleabi),
+    ("armv7a-unknown-linux-musleabihf", armv7a_gentoo_linux_musleabihf),
+    ("i686-gentoo-linux-musl", i686_gentoo_linux_musl),
+    ("powerpc-gentoo-linux-musl", powerpc_gentoo_linux_musl),
+    ("powerpc64-gentoo-linux-musl", powerpc64_gentoo_linux_musl),
+    ("powerpc64le-gentoo-linux-musl", powerpc64le_gentoo_linux_musl),
+    ("x86_64-gentoo-linux-musl", x86_64_gentoo_linux_musl),
+
     ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
     ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
     ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
@@ -835,7 +846,6 @@ supported_targets! {
     ("sparc64-unknown-linux-gnu", sparc64_unknown_linux_gnu),
     ("arm-unknown-linux-gnueabi", arm_unknown_linux_gnueabi),
     ("arm-unknown-linux-gnueabihf", arm_unknown_linux_gnueabihf),
-    ("arm-unknown-linux-musleabi", arm_unknown_linux_musleabi),
     ("arm-unknown-linux-musleabihf", arm_unknown_linux_musleabihf),
     ("armv4t-unknown-linux-gnueabi", armv4t_unknown_linux_gnueabi),
     ("armv5te-unknown-linux-gnueabi", armv5te_unknown_linux_gnueabi),
