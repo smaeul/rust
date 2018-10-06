@@ -4,12 +4,7 @@ include ../tools.mk
 # ignore-openbsd
 # ignore-solaris
 
-HOST := $(shell $(RUSTC) -vV | grep 'host:' | sed 's/host: //')
-ifeq ($(findstring i686,$(HOST)),i686)
-TARGET := $(subst i686,x86_64,$(HOST))
-else
-TARGET := $(subst x86_64,i686,$(HOST))
-endif
+TARGET := $(shell $(RUSTC) -vV | grep 'host:' | sed 's/host: //')
 
 all:
 	$(RUSTC) foo.rs -C extra-filename=-host
