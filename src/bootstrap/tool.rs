@@ -587,18 +587,10 @@ macro_rules! tool_extended {
             }
 
             #[allow(unused_mut)]
+            #[allow(unused_variables)]
             fn run(mut $sel, $builder: &Builder<'_>) -> Option<PathBuf> {
                 $extra_deps
-                $builder.ensure(ToolBuild {
-                    compiler: $sel.compiler,
-                    target: $sel.target,
-                    tool: $tool_name,
-                    mode: Mode::ToolRustc,
-                    path: $path,
-                    extra_features: $sel.extra_features,
-                    is_optional_tool: true,
-                    source_type: SourceType::Submodule,
-                })
+                return None;
             }
         }
         )+
