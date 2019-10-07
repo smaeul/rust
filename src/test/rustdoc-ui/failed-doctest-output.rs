@@ -3,7 +3,7 @@
 // adapted to use that, and that normalize line can go away
 
 // compile-flags:--test
-// normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
+// normalize-stdout-test: "[[:graph:]]*src/test/rustdoc-ui" -> "$$DIR"
 // failure-status: 101
 
 // doctest fails at runtime
