@@ -7,7 +7,7 @@
 
 //@ compile-flags:--test --test-args --test-threads=1
 //@ rustc-env:RUST_BACKTRACE=0
-//@ normalize-stdout-test: "tests/rustdoc-ui/doctest" -> "$$DIR"
+//@ normalize-stdout-test: "[[:graph:]]*tests/rustdoc-ui/doctest" -> "$$DIR"
 //@ normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
 //@ failure-status: 101
 
