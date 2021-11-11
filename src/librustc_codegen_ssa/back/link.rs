@@ -1953,7 +1953,7 @@ fn add_upstream_native_libraries(
                     // dylibs at all. Force native libraries to be static, even if for example
                     // an upstream rlib was originally linked against a native shared library.
                     if crate_type == config::CrateType::Executable
-                        && sess.crt_static()
+                        && sess.crt_static(Some(crate_type))
                         && !sess.target.target.options.crt_static_allows_dylibs
                     {
                         cmd.link_staticlib(name)
