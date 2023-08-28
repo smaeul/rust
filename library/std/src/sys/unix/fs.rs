@@ -46,10 +46,11 @@ use libc::c_char;
     target_os = "hurd",
 ))]
 use libc::dirfd;
-#[cfg(any(target_os = "linux", target_os = "emscripten", target_os = "hurd"))]
+#[cfg(any(target_os = "emscripten", target_os = "hurd"))]
 use libc::fstatat64;
 #[cfg(any(
     target_os = "android",
+    target_os = "linux",
     target_os = "solaris",
     target_os = "fuchsia",
     target_os = "redox",
@@ -58,7 +59,7 @@ use libc::fstatat64;
     target_os = "vita",
 ))]
 use libc::readdir as readdir64;
-#[cfg(any(target_os = "linux", target_os = "hurd"))]
+#[cfg(target_os = "hurd")]
 use libc::readdir64;
 #[cfg(any(target_os = "emscripten", target_os = "l4re"))]
 use libc::readdir64_r;
@@ -82,18 +83,16 @@ use libc::{
     lstat as lstat64, off64_t, open as open64, stat as stat64,
 };
 #[cfg(not(any(
-    target_os = "linux",
     target_os = "emscripten",
     target_os = "l4re",
     target_os = "android",
     target_os = "hurd",
 )))]
 use libc::{
-    dirent as dirent64, fstat as fstat64, ftruncate as ftruncate64, lseek as lseek64,
+    dirent as dirent64, fstat as fstat64, fstatat as fstatat64, ftruncate as ftruncate64, lseek as lseek64,
     lstat as lstat64, off_t as off64_t, open as open64, stat as stat64,
 };
 #[cfg(any(
-    target_os = "linux",
     target_os = "emscripten",
     target_os = "l4re",
     target_os = "hurd"

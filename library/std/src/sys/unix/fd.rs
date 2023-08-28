@@ -126,9 +126,9 @@ impl FileDesc {
     }
 
     pub fn read_at(&self, buf: &mut [u8], offset: u64) -> io::Result<usize> {
-        #[cfg(not(any(target_os = "linux", target_os = "android", target_os = "hurd")))]
+        #[cfg(not(any(target_os = "android", target_os = "hurd")))]
         use libc::pread as pread64;
-        #[cfg(any(target_os = "linux", target_os = "android", target_os = "hurd"))]
+        #[cfg(any(target_os = "android", target_os = "hurd"))]
         use libc::pread64;
 
         unsafe {
@@ -285,9 +285,9 @@ impl FileDesc {
     }
 
     pub fn write_at(&self, buf: &[u8], offset: u64) -> io::Result<usize> {
-        #[cfg(not(any(target_os = "linux", target_os = "android", target_os = "hurd")))]
+        #[cfg(not(any(target_os = "android", target_os = "hurd")))]
         use libc::pwrite as pwrite64;
-        #[cfg(any(target_os = "linux", target_os = "android", target_os = "hurd"))]
+        #[cfg(any(target_os = "android", target_os = "hurd"))]
         use libc::pwrite64;
 
         unsafe {
